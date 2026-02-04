@@ -9,7 +9,7 @@ return {
     require("mason").setup()
     -- Setup mason-lspconfig
     require("mason-lspconfig").setup({
-      ensure_installed = { "lua_ls", "jdtls", "clangd", "rust_analyser", "pyright", "ts_ls", "gopls", "html", "cssls", "jsonls" },
+      ensure_installed = { "lua_ls", "jdtls", "clangd", "pyright", "ts_ls", "html", "cssls", "jsonls" },
     })
 
     -- Configure diagnostics appearance
