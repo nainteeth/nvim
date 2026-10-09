@@ -1,0 +1,40 @@
+return {
+  "hrsh7th/nvim-cmp",
+  dependencies = {
+    "hrsh7th/cmp-nvim-lsp",
+    "hrsh7th/cmp-buffer",
+    "hrsh7th/cmp-path",
+    "windwp/nvim-autopairs",
+  },
+  config = function()
+    local cmp          = require("cmp")
+    local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+
+    require("nvim-autopairs").setup()
+    cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+
+    cmp.setup({
+      snippet = {
+        expand = function(args) vim.snippet.expand(args.body) end,
+      },
+      mapping = cmp.mapping.preset.insert({
+        ["<Tab>"]     = cmp.mapping.select_next_item(),
+        ["<S-Tab>"]   = cmp.mapping.select_prev_item(),
+        ["<CR>"]      = cmp.mapping.confirm({ select = true }),
+        ["<C-Space>"] = cmp.mapping.complete(),
+        ["<C-e>"]     = cmp.mapping.abort(),
+      }),
+      sources = cmp.config.sources({
+        { name = "nvim_lsp" },
+        { name = "buffer" },
+        { name = "path" },
+      }),
+      formatting = {
+        format = function(entry, item)
+          item.menu = ({ nvim_lsp = "[LSP]", buffer = "[buf]", path = "[path]" })[entry.source.name] or ""
+          return item
+        end,
+      },
+    })
+  end,
+}
